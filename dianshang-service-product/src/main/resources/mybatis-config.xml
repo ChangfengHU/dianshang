@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+
+
+	<settings>
+		<!-- 开启驼峰匹配 -->
+		<setting name="mapUnderscoreToCamelCase" value="true" />
+	</settings>
+
+	<!-- 别名 typeAliases标签 是写实体类的别名，写了之后可以在写Sql配置文件
+	例如<select>标签中的属性就可以不用写实体的具体路径直接用别名就可以了，
+	可以简化代码给你看个例子：
+	没有别名这样写<select resultType="com.sjh.entity.VoteUser">
+	写了别名就可以这样写<select  resultType="VoteUsers">
+	 直接写别名就可以不用再写实体的路径了，VoteUsers就能在任何地方代替
+	 “com.sjh.entity.VoteUser”被使用。如果很多属性涉及到实体类，
+	 直接写别名很方便的。你说你删了程序照样跑，写配置的时候你一定是没有应用到别名，
+	 都写得实体路径。希望通过我的一番解释你能明白这个标签的用途。-->
+	<typeAliases>
+		<package name="com.dianshang.core.pojo" />
+	</typeAliases>
+	<!--<plugins>
+		&lt;!&ndash; 自定义分页插件 &ndash;&gt;
+		<plugin interceptor="com.dianshang.core.tools.PageHelper"></plugin>
+		&lt;!&ndash; 通用Mapper &ndash;&gt;
+		<plugin interceptor="com.github.abel533.mapperhelper.MapperInterceptor">
+			&lt;!&ndash;主键自增回写方法,默认值MYSQL,详细说明请看文档 &ndash;&gt;
+			<property name="IDENTITY" value="HSQLDB" />
+			&lt;!&ndash;通用Mapper接口，多个通用接口用逗号隔开 &ndash;&gt;
+			<property name="mappers" value="com.github.abel533.mapper.Mapper" />
+		</plugin>
+	</plugins>-->
+</configuration>
