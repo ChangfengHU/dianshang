@@ -32,7 +32,8 @@ public class TestTbTest {
     {
         TestTb testTb = new TestTb();
         testTb.setName("范冰冰");
+        testTb.setBirthday(new Date());
         System.err.println("11111111111111111111111111111111"+testTbDAO);
-        testTbDAO.add(testTb);
+        testTbDAO.add1(testTb);
     }
 }
