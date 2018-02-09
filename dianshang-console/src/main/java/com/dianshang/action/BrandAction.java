@@ -20,7 +20,7 @@ public class BrandAction {
     @Autowired
     private BrandService brandService;
 
-    // 品牌
+    // 品牌1
     @RequestMapping(value = "console/brand/{pageName}.do")
     public String consoleBrandShow(@PathVariable(value = "pageName") String pageName, Model model) {
 
