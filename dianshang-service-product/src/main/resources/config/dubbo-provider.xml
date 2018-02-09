@@ -39,6 +39,10 @@
 				   ref="testTbService" />
 
 
+	<dubbo:service interface="com.dianshang.core.service.BrandService"
+				   ref="brandService" />
+
+
 
 
 

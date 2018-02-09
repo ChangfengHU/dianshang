@@ -41,10 +41,5 @@ public class CenterAction {
         return "/product/" + pageName;
     }
 
-    // 品牌
-    @RequestMapping(value = "console/brand/{pageName}.do")
-    public String consoleBrandShow(@PathVariable(value = "pageName") String pageName) {
-        return "/brand/" + pageName;
-    }
 
 }
