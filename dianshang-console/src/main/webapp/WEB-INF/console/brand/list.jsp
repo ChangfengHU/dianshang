@@ -1,6 +1,6 @@
-<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
-<%@ page import="com.dianshang.core.pojo.User" %>
+<%@ page language="java" pageEncoding="UTF-8"%>
 <%@ include file="../head.jsp" %>
+<%@ page isELIgnored="false" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -16,12 +16,18 @@
 	<div class="clear"></div>
 </div>
 <div class="body-box">
-<form action="/brand/list.do" method="post" style="padding-top:5px;">
+<form action="/console/brand/list.do" method="post" style="padding-top:5px;">
 品牌名称: <input type="text" name="name" value="${name}"/>
-	<select name="isDisplay">
+	<select name="isDisplay" id ="isDisplay">
 		<option value="1">是</option>
 		<option value="0">否</option>
 	</select>
+	<script>
+		isDisplay.value=${isDisplay};
+	</script>
+<%--	<script>
+		$("select[name='isDisplay']").val();
+	</script>--%>
 	<input type="submit" class="query" value="查询"/>
 </form>
 <table cellspacing="1" cellpadding="0" border="0" width="100%" class="pn-ltable">
@@ -39,7 +45,7 @@
 	</thead>
 	<tbody class="pn-ltbody">
 
-	<c:forEach items="${brands}" var="brand">
+	<c:forEach items="${pageBrand.result}" var="brand">
 
 		<tr bgcolor="#ffffff" onmouseout="this.bgColor='#ffffff'" onmouseover="this.bgColor='#eeeeee'">
 			<td><input type="checkbox" value="8" name="ids"/></td>
@@ -55,48 +61,48 @@
 
 			</td>
 			<td align="center">
-				<a class="pn-opt" href="#">修改</a> | <a class="pn-opt" onclick="if(!confirm('您确定删除吗？')) {return false;}" href="#">删除</a>
+				<a class="pn-opt" href="showedit.do?brandId=${brand.id}">修改</a> |
+				<a class="pn-opt"  href="doDelete.do?brandId=${brand.id}&name=${name}&isDisplay=${isDisplay}">删除</a>
 			</td>
 		</tr>
 
 	</c:forEach>
 
-	<tr bgcolor="#ffffff" onmouseout="this.bgColor='#ffffff'" onmouseover="this.bgColor='#eeeeee'">
-	<c:set var="xingqi" value="3" />
-	<c:choose>
-		<c:when test="${ xingqi eq 1 }">星期一</c:when>
-		<c:when test="${ xingqi eq 2 }">星期二</c:when>
-		<c:when test="${ xingqi eq 3 }">星期三</c:when>
-		<c:when test="${ xingqi eq 4 }">星期四</c:when>
-		<c:when test="${ xingqi eq 5 }">星期五</c:when>
-		<c:when test="${ xingqi eq 6 }">星期六</c:when>
-		<c:otherwise>星期日</c:otherwise>
-	</c:choose>
-	</tr>
+
 	</tbody>
 </table>
 <div class="page pb15">
 	<span class="r inb_a page_b">
 	
-		<font size="2">首页</font>
+		<a href="list.do?name=${name}&isDisplay=${isDisplay}&pageNum=1"><font
+				size="2">首页</font></a>
 	
-		<font size="2">上一页</font>
+		  <c:if test="${pageBrand.pageNum<=1}">
+			  <font size="2">上一页</font>
+		  </c:if>
+	    <c:if test="${pageBrand.pageNum>1}">
+			<a href="list.do?name=${name}&isDisplay=${isDisplay}&pageNum=${pageBrand.pageNum-1}"><font size="2">上一页</font></a>
+		</c:if>
+		 <c:forEach begin="${begin}" end="${end}" var="ps">
+			 <c:if test="${pageBrand.pageNum==ps}">
+				 <strong>${ps}</strong>
+			 </c:if>
+			 <c:if test="${pageBrand.pageNum!=ps}">
+				 <a href="list.do?name=${name}&isDisplay=${isDisplay}&pageNum=${ps}">${ps}</a>
+			 </c:if>
+			 &nbsp;
+		 </c:forEach>
+		  <c:if test="${pageBrand.pageNum>=pageBrand.pages}">
+			  <font size="2">下一页</font>
+		  </c:if>
+	    <c:if test="${pageBrand.pageNum<pageBrand.pages}">
+			<a href="list.do?name=${name}&isDisplay=${isDisplay}&pageNum=${pageBrand.pageNum+1}"><font size="2">下一页</font></a>
+		</c:if>
+
+		<a href="list.do?name=${name}&isDisplay=${isDisplay}&pageNum=${pageBrand.pages}"><font
+				size="2">尾页</font></a>
 	
-		<strong>1</strong>
-	
-		<a href="/product/list.do?&amp;isShow=0&amp;pageNo=2">2</a>
-	
-		<a href="/product/list.do?&amp;isShow=0&amp;pageNo=3">3</a>
-	
-		<a href="/product/list.do?&amp;isShow=0&amp;pageNo=4">4</a>
-	
-		<a href="/product/list.do?&amp;isShow=0&amp;pageNo=5">5</a>
-	
-		<a href="/product/list.do?&amp;isShow=0&amp;pageNo=2"><font size="2">下一页</font></a>
-	
-		<a href="/product/list.do?&amp;isShow=0&amp;pageNo=5"><font size="2">尾页</font></a>
-	
-		共<var>5</var>页 到第<input type="text" size="3" id="PAGENO"/>页 <input type="button" onclick="javascript:window.location.href = '/product/list.do?&amp;isShow=0&amp;pageNo=' + $('#PAGENO').val() " value="确定" class="hand btn60x20" id="skip"/>
+		共<var>${pageBrand.pages}</var>页 到第<input type="text" size="3" id="PAGENO"/>页 <input type="button" onclick="javascript:window.location.href = '/product/list.do?&amp;isShow=0&amp;pageNo=' + $('#PAGENO').val() " value="确定" class="hand btn60x20" id="skip"/>
 	
 	</span>
 </div>

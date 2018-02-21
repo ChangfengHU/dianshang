@@ -17,4 +17,23 @@ public interface BrandDAO {
      * @return
      */
     public List<Brand> findByExample(Brand brand);
+
+    /**
+     * 根据id查询 单个品牌对象信息
+     * @param id
+     * @return
+     */
+    public Brand findById(Long id);
+    /**
+     * 修改单个品牌对象信息
+     * @param brand
+     */
+    public void updateById(Brand brand);
+    /**
+     * 删除单个品牌对象信息
+     * @param ids
+     */
+    public void deleteById(String ids);
+
+
 }

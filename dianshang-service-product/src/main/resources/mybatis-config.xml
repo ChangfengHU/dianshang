@@ -56,15 +56,15 @@ INSERT INTO bbs_brand VALUES ('20', '兰博伊人（lanboyiren）', null, null, 
 	<typeAliases>
 		<package name="com.dianshang.core.pojo" />
 	</typeAliases>
-	<!--<plugins>
-		&lt;!&ndash; 自定义分页插件 &ndash;&gt;
+	<plugins>
+		<!-- 自定义分页插件 -->
 		<plugin interceptor="com.dianshang.core.tools.PageHelper"></plugin>
-		&lt;!&ndash; 通用Mapper &ndash;&gt;
+		<!-- 通用Mapper -->
 		<plugin interceptor="com.github.abel533.mapperhelper.MapperInterceptor">
-			&lt;!&ndash;主键自增回写方法,默认值MYSQL,详细说明请看文档 &ndash;&gt;
+			<!--主键自增回写方法,默认值MYSQL,详细说明请看文档 -->
 			<property name="IDENTITY" value="HSQLDB" />
-			&lt;!&ndash;通用Mapper接口，多个通用接口用逗号隔开 &ndash;&gt;
+			<!--通用Mapper接口，多个通用接口用逗号隔开 -->
 			<property name="mappers" value="com.github.abel533.mapper.Mapper" />
 		</plugin>
-	</plugins>-->
+	</plugins>
 </configuration>
