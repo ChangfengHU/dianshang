@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.util.List;
 
@@ -103,5 +104,15 @@ public class BrandAction {
        /* return "redirect:/console/brand/list.do?name=" + name + "&isDisplay="
                 + isDisplay + "&pageNum=" + pageNum;*/
     }
+     ///品牌删除
+    @RequestMapping(value = "console/brand/doDeletes.do", method = RequestMethod.POST )
+    public String consoleBrandDoDeletes(String ids, String name,
+                                       Integer isDisplay, Integer pageNum) {
+        System.err.println("看看页面传过来的brandIds"+ids);
+        brandService.deleteByIds(ids);
+        return "redirect:/console/brand/list.do";
+    }
+
+
 
 }

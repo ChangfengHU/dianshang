@@ -35,5 +35,13 @@ public interface BrandDAO {
      */
     public void deleteById(String ids);
 
+    /**
+     * 根据多个id删除品牌对象
+     *
+     * @param ids
+     */
+    public void deleteByIds(String ids);
+
+
 
 }

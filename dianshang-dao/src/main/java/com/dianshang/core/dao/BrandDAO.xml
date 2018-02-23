@@ -71,5 +71,14 @@
         WHERE
          id = #{id};
     </select>
+    <!-- 根据id删除单个品牌对象 -->
+    <select id="deleteByIds">
+        DELETE
+        FROM
+        bbs_brand
+        WHERE
+        id IN (${value});
+    </select>
+
 
 </mapper>

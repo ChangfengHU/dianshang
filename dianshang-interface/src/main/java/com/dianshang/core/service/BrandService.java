@@ -37,5 +37,11 @@ public interface BrandService {
 	 * @return
 	 */
 	public void deleteById(String id );
+	/**
+	 * 根据多个id删除品牌对象
+	 *
+	 * @param ids
+	 */
+	public void deleteByIds(String ids);
 
 }

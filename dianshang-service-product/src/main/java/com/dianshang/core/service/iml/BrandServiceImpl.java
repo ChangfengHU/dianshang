@@ -45,4 +45,9 @@ public class BrandServiceImpl implements BrandService {
         brandDAO.deleteById(id);
     }
 
+    @Override
+    public void deleteByIds(String ids) {
+        brandDAO.deleteByIds(ids);
+    }
+
 }
