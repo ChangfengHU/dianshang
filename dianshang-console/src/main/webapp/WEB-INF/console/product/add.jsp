@@ -149,14 +149,11 @@ function uploadPic(){
 					<td width="20%" class="pn-flabel pn-flabel-h">
 						<span class="pn-frequired">*</span>
 						颜色:</td><td width="80%" class="pn-fcontent">
-							<input type="checkbox" value="9" name="colors"/>西瓜红
-							<input type="checkbox" value="9" name="colors"/>西瓜红
-							<input type="checkbox" value="9" name="colors"/>西瓜红
-							<input type="checkbox" value="9" name="colors"/>西瓜红
-							<input type="checkbox" value="9" name="colors"/>西瓜红
-							<input type="checkbox" value="9" name="colors"/>西瓜红
-							<input type="checkbox" value="9" name="colors"/>西瓜红
-					</td>
+					<c:forEach items="${colors}" var="color">
+						<input type="checkbox" value="${color.id}" name="colors"/>${color.name}
+					</c:forEach>
+
+				</td>
 				</tr>
 				<tr>
 					<td width="20%" class="pn-flabel pn-flabel-h">

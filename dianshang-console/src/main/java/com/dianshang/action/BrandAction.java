@@ -2,7 +2,6 @@ package com.dianshang.action;
 
 import com.dianshang.core.pojo.Brand;
 import com.dianshang.core.service.BrandService;
-import com.dianshang.core.tools.Encoding;
 import com.dianshang.core.tools.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -10,10 +9,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-
-import java.util.List;
-
-import static com.sun.org.apache.xml.internal.serialize.OutputFormat.Defaults.Encoding;
 
 /**
  * 品牌管理控制器
@@ -28,7 +23,7 @@ public class BrandAction {
     // 品牌1
     @RequestMapping(value = "console/brand/{pageName}.do")
     public String consoleBrandShow(@PathVariable(value = "pageName") String pageName,
-                                   Model model,String name, Integer isDisplay, Integer pageNum, Integer pageSize
+                                   Model model, String name, Integer isDisplay, Integer pageNum, Integer pageSize
     ) {
 
         // 品牌查询
@@ -42,8 +37,8 @@ public class BrandAction {
             // 开始分页查询
             PageHelper.Page<Brand> pageBrand = brandService.findByExample(brand, pageNum,
                     pageSize);
-            System.err.println("总数据:"+pageBrand.getTotal());
-            System.err.println("pageSize:"+pageBrand.getPageSize());
+            System.err.println("总数据:" + pageBrand.getTotal());
+            System.err.println("pageSize:" + pageBrand.getPageSize());
             // 将查询出来的品牌集合传递给页面
             int begin;
             int end;
@@ -69,23 +64,25 @@ public class BrandAction {
         }
         return "/brand/" + pageName;
     }
+
     // 显示修改页面（具体映射）
     @RequestMapping(value = "console/brand/showedit.do")
     public String consoleBrandShowEdit(Long brandId, Model model) {
         // 获得要修改品牌的id
-        System.err.println("显示id:"+brandId);
+        System.err.println("显示id:" + brandId);
         // 设置修改的数据回显
         Brand brand = brandService.findById(brandId);
         System.err.println(brand);
         model.addAttribute("brand", brand);
         return "/brand/edit";
     }
+
     // 执行品牌修改
     @RequestMapping(value = "console/brand/doEdit.do")
     public String consoleBrandDoEdit(Brand brand) {
 
         // 获得要修改的对象内容
-        System.err.println("修改前先去看看品牌数据"+brand);
+        System.err.println("修改前先去看看品牌数据" + brand);
         // 根据id来执行修改
         brandService.updateById(brand);
         // 重定向到显示品牌列表功能页面
@@ -96,7 +93,7 @@ public class BrandAction {
     @RequestMapping(value = "console/brand/doDelete.do")
     public String consoleBrandDoDelete(String brandId, String name,
                                        Integer isDisplay, Integer pageNum) {
-        System.err.println("看看页面传过来的brandId"+brandId);
+        System.err.println("看看页面传过来的brandId" + brandId);
         brandService.deleteById(brandId);
         System.err.println(name);
         System.err.println(isDisplay);
@@ -104,15 +101,15 @@ public class BrandAction {
        /* return "redirect:/console/brand/list.do?name=" + name + "&isDisplay="
                 + isDisplay + "&pageNum=" + pageNum;*/
     }
-     ///品牌删除
-    @RequestMapping(value = "console/brand/doDeletes.do", method = RequestMethod.POST )
+
+    ///品牌删除
+    @RequestMapping(value = "console/brand/doDeletes.do", method = RequestMethod.POST)
     public String consoleBrandDoDeletes(String ids, String name,
-                                       Integer isDisplay, Integer pageNum) {
-        System.err.println("看看页面传过来的brandIds"+ids);
+                                        Integer isDisplay, Integer pageNum) {
+        System.err.println("看看页面传过来的brandIds" + ids);
         brandService.deleteByIds(ids);
         return "redirect:/console/brand/list.do";
     }
-
 
 
 }

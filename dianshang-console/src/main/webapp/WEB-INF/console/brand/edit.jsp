@@ -73,4 +73,21 @@
 	</form>
 </div>
 </body>
+<script>
+	function uploadPic() {
+		var options = {
+			url : "/uploadFile.do",
+			type : "post",
+			dataType : "json",
+			success : function(data) {
+				//设置图片的回显属性，来回显图片
+				$("#allUrl").attr("src", data.path);
+				//设置图片的在表单提交后的值
+				$("#imgUrl").val(data.path);
+			}
+		}
+		//异步提交表单
+		$("#jvForm").ajaxSubmit(options);
+	}
+</script>
 </html>

@@ -42,6 +42,9 @@
 	<dubbo:service interface="com.dianshang.core.service.BrandService"
 				   ref="brandService" />
 
+	<dubbo:service interface="com.dianshang.core.service.ProductService"
+				   ref="productService" />
+
 
 
 
