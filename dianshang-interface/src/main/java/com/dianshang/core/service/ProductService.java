@@ -1,5 +1,6 @@
 package com.dianshang.core.service;
 
+import com.dianshang.core.pojo.Brand;
 import com.dianshang.core.pojo.Color;
 import com.dianshang.core.pojo.Product;
 import com.dianshang.core.tools.PageHelper;
@@ -34,4 +35,16 @@ public interface ProductService {
 	 */
 	public List<Color> findEnableColors();
 
+	/**
+	 * 添加商品
+	 * @param product
+	 */
+	public void add(Product product);
+
+	/**
+	 * 查询所有可用颜色（颜色的父id不为0）
+	 *
+	 * @return
+	 */
+	public List<Brand> findEnablebrands();
 }

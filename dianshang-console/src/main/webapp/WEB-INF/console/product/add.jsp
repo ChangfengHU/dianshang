@@ -48,7 +48,7 @@ $(function(){
 					//指定上传文件参数名称
 					filePostName  : "uploadFile",
 					//指定上传文件请求的url。
-					uploadJson : '/upload/uploadFck.do',
+					uploadJson : '/uploadFck.do',
 					//上传类型，分别为image、flash、media、file
 					dir : "image"//,
 // 					width : '1000px',
@@ -64,7 +64,7 @@ $(function(){
 function uploadPic(){
 	//上传图片 异步的  	Jquery.form.js
 	var options = {
-			url : "/upload/uploadPics.do",
+			url : "/uploadFiles.do",
 			type : "post",
 			dataType : "json",
 			success : function(data){
@@ -81,7 +81,7 @@ function uploadPic(){
 					 +  '</tr>';
 				//回显
 				$("#tab_2").append(html);
-				
+
 			}
 	}
 	$("#jvForm").ajaxSubmit(options);
@@ -103,7 +103,7 @@ function uploadPic(){
 <a href="javascript:void(0);" ref="#tab_4" title="包装清单" class="nor">包装清单</a>
 </span></h2>
 <div class="body-box" style="float:right">
-	<form id="jvForm" action="add.do" method="post" enctype="multipart/form-data">
+		<form id="jvForm" action="doAdd.do" method="post" enctype="multipart/form-data">
 		<table cellspacing="1" cellpadding="2" width="100%" border="0" class="pn-ftable">
 			<tbody id="tab_1">
 				<tr>
@@ -133,9 +133,9 @@ function uploadPic(){
 						商品品牌:</td><td width="80%" class="pn-fcontent">
 						<select name="brandId">
 							<option value="">请选择品牌</option>
-							<option value="1">依琦莲</option>
-							<option value="2">凯速（KANSOON）</option>
-							<option value="3">梵歌纳（vangona）</option>
+							<c:forEach items="${brands}" var="brand">
+								<option value="${brand.id}">${brand.name}</option>
+							</c:forEach>
 						</select>
 					</td>
 				</tr>
@@ -187,7 +187,7 @@ function uploadPic(){
 				<tr>
 					<td width="20%" class="pn-flabel pn-flabel-h"></td>
 						<td width="80%" class="pn-fcontent">
-						<input type="file" onchange="uploadPic()" name="pics" multiple="multiple"/>
+						<input type="file" onchange="uploadPic()" name="mpfs" multiple="multiple"/>
 					</td>
 				</tr>
 			</tbody>

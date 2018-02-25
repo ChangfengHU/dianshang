@@ -45,7 +45,14 @@ public class ProductAction {
     public String consoleBrandShowAdd(Model model) {
         // 加载所有可用颜色
         model.addAttribute("colors", productService.findEnableColors());
+        model.addAttribute("brands", productService.findEnablebrands());
         return "/product/add";
+    }
+    // 添加商品
+    @RequestMapping(value = "console/product/doAdd.do")
+    public String consoleProductDoAdd(Model model,Product product) {
+        productService.add(product);
+        return "redirect:/console/product/list.do";
     }
 
 }
