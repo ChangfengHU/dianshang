@@ -13,6 +13,8 @@ import com.dianshang.core.tools.PageHelper;
 import com.github.abel533.entity.Example;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import redis.clients.jedis.Jedis;
 
 import java.util.Date;
 import java.util.List;
@@ -24,6 +26,7 @@ import java.util.List;
  *
  */
 @Service("productService")
+
 public class ProductServiceImpl implements ProductService {
 
 	@Autowired
@@ -34,7 +37,8 @@ public class ProductServiceImpl implements ProductService {
     private ColorDAO colorDAO;
 	@Autowired
     private SkuDAO skuDAO;
-
+    @Autowired
+    private Jedis jedis;
 	@Override
 	public PageHelper.Page<Product> findByExample(Product product, Integer pageNum,
 												  Integer pageSize) {
@@ -63,6 +67,7 @@ public class ProductServiceImpl implements ProductService {
         return colors;
     }
     @Override
+    @Transactional
     public void add(Product product) {
 
         // 设置默认值
@@ -72,6 +77,8 @@ public class ProductServiceImpl implements ProductService {
         if (product.getCreateTime() == null) {
             product.setCreateTime(new Date());
         }
+        Long pno = jedis.incr("pno");
+        product.setId(pno);
         // 先添加商品到数据库中
         productDAO.insert(product);
         System.out.println("获得回显id" + product.getId());

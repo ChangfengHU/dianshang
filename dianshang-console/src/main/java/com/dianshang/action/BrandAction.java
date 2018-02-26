@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import java.io.UnsupportedEncodingException;
+
 /**
  * 品牌管理控制器
  *
@@ -91,14 +93,15 @@ public class BrandAction {
 
     // 品牌删除
     @RequestMapping(value = "console/brand/doDelete.do")
-    public String consoleBrandDoDelete(String brandId, String name,
-                                       Integer isDisplay, Integer pageNum) {
+    public String consoleBrandDoDelete(String brandId, final String name,
+                                       Integer isDisplay, Integer pageNum) throws UnsupportedEncodingException {
         System.err.println("看看页面传过来的brandId" + brandId);
         brandService.deleteById(brandId);
         System.err.println(name);
         System.err.println(isDisplay);
-        return "redirect:/console/brand/list.do?name=" + com.dianshang.core.tools.Encoding.encodeGetRequest(name);
-       /* return "redirect:/console/brand/list.do?name=" + name + "&isDisplay="
+        return "redirect:/console/brand/list.do?name="
+                + java.net.URLEncoder.encode(name,"utf-8");
+    /* return "redirect:/console/brand/list.do?name=" + name + "&isDisplay="
                 + isDisplay + "&pageNum=" + pageNum;*/
     }
 
