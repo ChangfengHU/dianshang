@@ -44,7 +44,8 @@
 
 	<dubbo:service interface="com.dianshang.core.service.ProductService"
 				   ref="productService" />
-
+	<dubbo:service interface="com.dianshang.core.service.SkuService"
+				   ref="skuService" />
 
 
 

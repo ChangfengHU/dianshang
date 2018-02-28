@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dianshang.core.dao.SkuDAO">
+	<!-- 对结果进行映射 并设定结果映射id -->
+	<resultMap type="com.dianshang.core.pojo.Sku" id="skuColorResultMap" autoMapping="true">
+		<id column="id" property="id"/>
+
+		<!-- 对子对象（成员对象）进行关联 -->
+		<!-- property:子对象（成员对象）名 -->
+		<!-- javaType:子对象（成员对象）的类名 -->
+		<!-- autoMapping:自动映射子对象（成员对象）的属性-->
+		<association property="color" javaType="com.dianshang.core.pojo.Color" autoMapping="true">
+			<id column="color_id" property="id"/>
+		</association>
+
+	</resultMap>
+
+	<!-- 关联查询时，需要使用resultMap引用结果映射的id -->
+	<select id="findByProductId" resultMap="skuColorResultMap">
+		SELECT
+		*,u.name
+		FROM
+		bbs_sku o
+		LEFT JOIN bbs_color u ON o.color_id = u.id
+		WHERE
+		o.product_id = #{productId};
+	</select>
+</mapper>

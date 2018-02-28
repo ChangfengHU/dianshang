@@ -25,11 +25,16 @@
 		<property name="dataSource" ref="dataSource" />
 		<!-- 配置Mybati的核心配置文件 -->
 		<property name="configLocation" value="classpath:mybatis-config.xml" />
+		<property name="mapperLocations" value="classpath*:mapper/**/*.xml" />
+
 	</bean>
 	
 	<!-- 扫描基本包 Mapper 接口 Mapper文件 不借助注解注入直接全部-->
 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
 		<property name="basePackage" value="com.dianshang.core.dao" />
 	</bean>
+	<!-- 配置mapper的xml 可以做到mapper.xml 与mapper接口相分离 -->
+
+
 
 </beans>
