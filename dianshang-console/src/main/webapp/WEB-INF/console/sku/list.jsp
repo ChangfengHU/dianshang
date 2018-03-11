@@ -61,4 +61,37 @@
 </form>
 </div>
 </body>
+<script>
+    function showUpdateSku(skuId) {
+        //修改该库存行的文本框为可用
+        $("#m" + skuId).attr("disabled", false);
+        $("#p" + skuId).attr("disabled", false);
+        $("#s" + skuId).attr("disabled", false);
+        $("#u" + skuId).attr("disabled", false);
+        $("#d" + skuId).attr("disabled", false);
+    }
+    function doUpdateSku(skuId) {
+        //修改该库存行的文本框为不可用
+        $("#m" + skuId).attr("disabled", true);
+        $("#p" + skuId).attr("disabled", true);
+        $("#s" + skuId).attr("disabled", true);
+        $("#u" + skuId).attr("disabled", true);
+        $("#d" + skuId).attr("disabled", true);
+
+        //需要传送到服务器的参数，记得加上库存id
+        var param = {
+            "marketPrice" : $("#m" + skuId).val(),
+            "price" : $("#p" + skuId).val(),
+            "stock" : $("#s" + skuId).val(),
+            "upperLimit" : $("#u" + skuId).val(),
+            "deliveFee" : $("#d" + skuId).val(),
+            "id" : skuId
+        };
+        //异步调用Controller，将数据保存到数据库中
+        $.post("update.do", param, function(data) {
+            alert(data);
+        });}
+
+</script>
+
 </html>

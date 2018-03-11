@@ -47,4 +47,6 @@ public interface ProductService {
 	 * @return
 	 */
 	public List<Brand> findEnablebrands();
+
+	void update(Product product, String ids);
 }

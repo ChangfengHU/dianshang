@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import redis.clients.jedis.Jedis;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -112,6 +113,25 @@ public class ProductServiceImpl implements ProductService {
         Brand brand = new Brand();
         List<Brand> brands = brandDAO.findByExample(brand);
         return brands;
+    }
+
+    @Override
+    public void update(Product product, String ids) {
+        Example example = new Example(Product.class);
+
+        // 将ids的字符串转成list集合
+        List arrayList = new ArrayList();
+        String[] split = ids.split(",");
+        for (String string : split) {
+            arrayList.add(string);
+        }
+
+        // 设置批量修改的id条件
+        example.createCriteria().andIn("id", arrayList);
+
+        // 进行批量，选择性的非空属性修改
+        productDAO.updateByExampleSelective(product, example);
+
     }
 
 

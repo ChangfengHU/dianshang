@@ -7,7 +7,7 @@
 <title>babasport-list</title>
 <script type="text/javascript">
 //上架
-function isShow(){
+function isShow(flag){
 	//请至少选择一个
 	var size = $("input[name='ids']:checked").size();
 	if(size == 0){
@@ -18,11 +18,12 @@ function isShow(){
 	if(!confirm("你确定上架吗")){
 		return;
 	}
-	//提交 Form表单
-	$("#jvForm").attr("action","/brand/isShow.do");
-	$("#jvForm").attr("method","post");
-	$("#jvForm").submit();
-	
+    //提交 Form表单
+    $("#jvForm").attr("action", "isShow.do?isShow=" + flag);
+    $("#jvForm").attr("method", "post");
+    $("#jvForm").submit();
+
+
 }
 </script>
 </head>
@@ -116,7 +117,7 @@ function isShow(){
 	
 	</span>
 </div>
-<div style="margin-top:15px;"><input class="del-button" type="button" value="删除" onclick="optDelete();"/><input class="add" type="button" value="上架" onclick="isShow();"/><input class="del-button" type="button" value="下架" onclick="isHide();"/></div>
+<div style="margin-top:15px;"><input class="del-button" type="button" value="删除" onclick="optDelete();"/><input class="add" type="button" value="上架" onclick="isShow(1);"/><input class="del-button" type="button" value="下架" onclick="isShow(0);"/></div>
 </form>
 </div>
 </body>
