@@ -94,27 +94,37 @@ function isShow(flag){
 </table>
 <div class="page pb15">
 	<span class="r inb_a page_b">
-	
-		<font size="2">首页</font>
-	
-		<font size="2">上一页</font>
-	
-		<strong>1</strong>
-	
-		<a href="/product/list.do?&amp;isShow=0&amp;pageNo=2">2</a>
-	
-		<a href="/product/list.do?&amp;isShow=0&amp;pageNo=3">3</a>
-	
-		<a href="/product/list.do?&amp;isShow=0&amp;pageNo=4">4</a>
-	
-		<a href="/product/list.do?&amp;isShow=0&amp;pageNo=5">5</a>
-	
-		<a href="/product/list.do?&amp;isShow=0&amp;pageNo=2"><font size="2">下一页</font></a>
-	
-		<a href="/product/list.do?&amp;isShow=0&amp;pageNo=5"><font size="2">尾页</font></a>
-	
-		共<var>5</var>页 到第<input type="text" size="3" id="PAGENO"/>页 <input type="button" onclick="javascript:window.location.href = '/product/list.do?&amp;isShow=0&amp;pageNo=' + $('#PAGENO').val() " value="确定" class="hand btn60x20" id="skip"/>
-	
+		<a href="list.do?name=${name}&isShow=${isShow}&pageNum=1"><font
+				size="2">首页</font></a>
+
+		  <c:if test="${pageProduct.pageNum<=1}">
+			  <font size="2">上一页</font>
+		  </c:if>
+	    <c:if test="${pageProduct.pageNum>1}">
+			<a href="list.do?name=${name}&isShow=${isShow}&pageNum=${pageProduct.pageNum-1}"><font size="2">上一页</font></a>
+		</c:if>
+		 <c:forEach begin="${begin}" end="${end}" var="ps">
+			 <c:if test="${pageProduct.pageNum==ps}">
+				 <strong>${ps}</strong>
+			 </c:if>
+			 <c:if test="${pageProduct.pageNum!=ps}">
+				 <a href="list.do?name=${name}&isShow=${isShow}&pageNum=${ps}">${ps}</a>
+			 </c:if>
+			 &nbsp;
+		 </c:forEach>
+		  <c:if test="${pageProduct.pageNum>=pageProduct.pages}">
+			  <font size="2">下一页</font>
+		  </c:if>
+	    <c:if test="${pageProduct.pageNum<pageProduct.pages}">
+			<a href="list.do?name=${name}&isShow=${isShow}&pageNum=${pageProduct.pageNum+1}"><font size="2">下一页</font></a>
+		</c:if>
+
+		<a href="list.do?name=${name}&isShow=${isShow}&pageNum=${pageProduct.pages}"><font
+				size="2">尾页</font></a>
+
+		共<var>${pageProduct.pages}</var>页 到第<input type="text" size="3" id="PAGENO"/>页 <input type="button" onclick="javascript:window.location.href = '/product/list.do?&amp;isShow=0&amp;pageNo=' + $('#PAGENO').val() " value="确定" class="hand btn60x20" id="skip"/>
+
+
 	</span>
 </div>
 <div style="margin-top:15px;"><input class="del-button" type="button" value="删除" onclick="optDelete();"/><input class="add" type="button" value="上架" onclick="isShow(1);"/><input class="del-button" type="button" value="下架" onclick="isShow(0);"/></div>

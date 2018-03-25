@@ -6,6 +6,7 @@ import java.util.Date;
 
 @Table(name="bbs_sku")
 public class Sku implements Serializable {
+    @Transient
     private Color color;
 
     public Color getColor() {

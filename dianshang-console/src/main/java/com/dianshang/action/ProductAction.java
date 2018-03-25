@@ -4,10 +4,13 @@ import com.dianshang.core.pojo.Product;
 import com.dianshang.core.service.ProductService;
 import com.dianshang.core.tools.Encoding;
 import com.dianshang.core.tools.PageHelper;
+import org.apache.solr.client.solrj.SolrServerException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import java.io.IOException;
 
 /**
  * Created by 25131 on 2018/2/25.
@@ -32,10 +35,26 @@ public class ProductAction {
                 pageSize);
         System.err.println(pageProduct);
         // 将查询出来的品牌集合传递给页面
+        int begin;
+        int end;
+
+        // 计算显示的起始页码（根据当前页码计算）：当前页码-5
+        begin = pageProduct.getPageNum() - 5;
+        if (begin < 1) {// 页码修复
+            begin = 1;
+        }
+        // 计算显示的结束页码（根据开始页码计算）：开始页码+9
+        end = begin + 9;
+        if (end > pageProduct.getPages()) {// 页码修复
+            end = pageProduct.getPages();
+        }
+        // 将查询出来的品牌集合传递给页面
         model.addAttribute("pageProduct", pageProduct);
         // 设置查询数据回显之将查询数据传回给页面
         model.addAttribute("name", name);
         model.addAttribute("isShow", isShow);
+        model.addAttribute("begin", begin);
+        model.addAttribute("end", end);
         // model.addAttribute("brandId", brandId);
 
         return "/product/list";
@@ -56,7 +75,7 @@ public class ProductAction {
     }
     // 商品上架下架 isShow=1表示上架，=0表示下架
     @RequestMapping(value = "console/product/isShow.do")
-    public String consoleProductDoIsShow(String ids, Integer isShow) {
+    public String consoleProductDoIsShow(String ids, Integer isShow) throws IOException, SolrServerException {
         System.out.println(ids);
         System.out.println(isShow);
 

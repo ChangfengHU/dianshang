@@ -4,7 +4,9 @@ import com.dianshang.core.pojo.Brand;
 import com.dianshang.core.pojo.Color;
 import com.dianshang.core.pojo.Product;
 import com.dianshang.core.tools.PageHelper;
+import org.apache.solr.client.solrj.SolrServerException;
 
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -48,5 +50,5 @@ public interface ProductService {
 	 */
 	public List<Brand> findEnablebrands();
 
-	void update(Product product, String ids);
+	void update(Product product, String ids) throws IOException, SolrServerException;
 }
