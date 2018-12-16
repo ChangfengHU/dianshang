@@ -14,14 +14,16 @@ public interface SolrService {
 
 	/**
      * 根据关键字搜索商品
-	 * 
-	 * @param keyWord
+	 *  @param keyWord
 	 * @param s
-     *@param pageNum
-     * @param pageSize @return
+	 * @param pageNum
+	 * @param pageSize @return
+	 * @param brandId
+	 * @param pa
+	 * @param pb
 	 * @throws SolrServerException
 	 */
-	PageHelper.Page<SuperPojo> findProductByKeyWord(String keyword, String sort, Integer pageNum, Integer pageSize)
+	PageHelper.Page<SuperPojo> findProductByKeyWord(String keyword, String sort, Integer pageNum, Integer pageSize, Long brandId, Float pa, Float pb)
 			throws SolrServerException;
 
 }

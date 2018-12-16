@@ -7,6 +7,6 @@ package com.dianshang.dictionary;
         /**
          * fastdfs服务器地址
          */
-        public final static String FDFS_SERVER = "http://192.168.56.102:8888/";
+        public final static String FDFS_SERVER = "http://192.168.56.200:8888/";
     }
 

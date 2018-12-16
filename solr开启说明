@@ -1,0 +1,22 @@
+solr---------------
+zookper:192.168.56.103:2181,192.168.56.104:2181,192.168.56.105:2181
+查看 单机 solr是否能使用:全局查看:调用testsolr 方法  ``
+开启 zooker :zkServer.sh start   三台机器都开启 jps 查看
+启动sorl集群 cd /usr/local/myapp/apache-tomcat-7.0.57/bin && ./shutdown.sh  然后执行 ./startup.sh  就是重启下 tomcat
+上传配置文件 :sh /usr/local/myapp/solr-4.10.2/example/scripts/cloud-scripts/zkcli.sh -zkhost 192.168.56.101:2181,192.168.56.102:2181,192.168.56.103:2181 -cmd upconfig -confdir /usr/local/myapp/solr-4.10.2/example/solr/collection1/conf/ -confname solrconf
+
+
+redis--------------
+机器名字:192.168.56.200
+测试服务:testRedis 方法
+启动服务 直接输入 :/etc/init.d/redis start
+
+fastdfs-------------
+机器名字:192.168.56.200
+测试服务 /usr/bin/fdfs_upload_file /etc/fdfs/client.conf /usr/local/mao/cs.jpg 返回地址
+启动跟踪服务 /etc/init.d/fdfs_trackerd start
+启动存储服务 /etc/init.d/fdfs_storaged start
+开机启动    chkconfig fdfs_storaged on
+            chkconfig fdfs_trackerd on
+
+

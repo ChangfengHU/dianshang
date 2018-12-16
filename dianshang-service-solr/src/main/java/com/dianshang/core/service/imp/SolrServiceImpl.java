@@ -11,6 +11,7 @@ import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrDocumentList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,15 +30,33 @@ public class SolrServiceImpl implements SolrService {
 	private CloudSolrServer cloudSolrServer;
 
 	@Override
-	public PageHelper.Page<SuperPojo> findProductByKeyWord(String keyword, String sort, Integer pageNum, Integer pageSize)
+	public PageHelper.Page<SuperPojo> findProductByKeyWord(String keyword, String sort, Integer pageNum, Integer pageSize, Long brandId, Float pa, Float pb)
 			throws SolrServerException {
 		System.err.println("solr查询进来了吗");
 		// 设置查询条件
 		// 指定要访问的Collection名称
 		cloudSolrServer.setDefaultCollection("myCollection1");
+		String query=null;
+		query="name_ik:" + keyword;
+		if (StringUtils.isEmpty(keyword)){
+			query="name_ik:*";
+		}
+		SolrQuery solrQuery = new SolrQuery(query);
+		// 设置过滤条件
+		if (brandId != null) {
+			solrQuery.addFilterQuery("brandId:" + brandId);// 品牌
+		}
 
-		SolrQuery solrQuery = new SolrQuery("name_ik:" + keyword);
-        // 设置排序
+		// 价格
+		if (pa != null && pb != null) {
+			if (pb == -1) {
+				solrQuery.addFilterQuery("price:[" + pa + " TO *]");
+			} else {
+				solrQuery.addFilterQuery("price:[" + pa + " TO " + pb + "]");
+			}
+		}
+
+		// 设置排序
         // solrQuery.setSort("price", ORDER.asc);
         if (sort != null && sort.trim().length() > 0) {
             String s = sort.split(",")[0];
@@ -106,8 +125,8 @@ public class SolrServiceImpl implements SolrService {
 			superProduct.setProperty("price", price);
 
 			// 品牌id
-			String brandId =  ""+solrDocument.get("brandId");
-			superProduct.setProperty("brandId", brandId);
+			String brandId1 =  ""+solrDocument.get("brandId");
+			superProduct.setProperty("brandId", brandId1);
 
 			// 将万能商品对象添加到集合中
 			superProducts.add(superProduct);

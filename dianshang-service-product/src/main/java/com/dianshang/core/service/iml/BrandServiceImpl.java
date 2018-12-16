@@ -7,8 +7,12 @@ import com.dianshang.core.tools.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import redis.clients.jedis.Jedis;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * 品牌服务类
@@ -18,6 +22,8 @@ import java.util.List;
 @Service("brandService")
 @Transactional
 public class BrandServiceImpl implements BrandService {
+    @Autowired
+    private Jedis jedis;
 
     @Autowired
     private BrandDAO brandDAO;
@@ -37,6 +43,10 @@ public class BrandServiceImpl implements BrandService {
     }
     @Override
     public void updateById(Brand brand) {
+        // 将品牌信息同步修改redis
+        jedis.hset("brand", String.valueOf(brand.getId()), brand.getName());
+
+
         brandDAO.updateById(brand);
     }
 
@@ -48,6 +58,23 @@ public class BrandServiceImpl implements BrandService {
     @Override
     public void deleteByIds(String ids) {
         brandDAO.deleteByIds(ids);
+    }
+
+    @Override
+    public List<Brand> findAllFromRedis() {
+        Map<String, String> hgetAll = jedis.hgetAll("brand");
+        // 将查询的结果放入到品牌对象集合中
+        List<Brand> brands = new ArrayList<Brand>();
+
+        Set<Map.Entry<String, String>> entrySet = hgetAll.entrySet();
+        for (Map.Entry<String, String> entry : entrySet) {
+            Brand brand = new Brand();
+            brand.setId(Long.parseLong(entry.getKey()));
+            brand.setName(entry.getValue());
+            brands.add(brand);
+        }
+        return brands;
+
     }
 
 }

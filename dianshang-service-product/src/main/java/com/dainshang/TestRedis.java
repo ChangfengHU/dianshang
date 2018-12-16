@@ -29,8 +29,8 @@ public class TestRedis {
 	 */
 	@Test
 	public void testRedis2() {
-		Long incr = jedis.incr("pno");
-		System.err.println(incr);
+		String brand = jedis.get("brand");
+		System.err.println(brand);
 	}
 
 	/**
@@ -39,9 +39,10 @@ public class TestRedis {
 	@Test
 	public void testRedis() {
 		// 创建redis客户端对象并指定服务器地址 端口默认为6379
-		Jedis jedis = new Jedis("192.168.57.101", 6379);
+		Jedis jedis = new Jedis("192.168.56.200", 6379);
 		// 使redis中的pno key值加1
 		Long incr = jedis.incr("pno");
+		jedis.set("q姓名","胡长风");
 		System.err.println(incr);
 	}
 	/**
@@ -55,8 +56,9 @@ public class TestRedis {
 		// 使用solr输入文档（SolrInputDocument） 创建文档对象
 		SolrInputDocument document = new SolrInputDocument();
 		// 添加字段到文档对象
-		document.addField("id", "4");
-		document.addField("title", "还能用单点吗");
+		document.addField("id", "100");
+		document.addField("title", "好好工作");
+		document.addField("url", "www.baicu.com");
 		//添加文档到solr服务器对象
 		solrServer.add(document);
 		// 提交
@@ -72,8 +74,8 @@ public class TestRedis {
 		// 使用solr输入文档（SolrInputDocument） 创建文档对象
 		SolrInputDocument document = new SolrInputDocument();
 		// 添加字段到文档对象
-		document.addField("id", "10");
-		document.addField("title", "还能用单点吗");
+		document.addField("id", "23");
+		document.addField("title", "睡觉");
 		//添加文档到solr服务器对象
 		solrServer.add(document);
 		// 提交

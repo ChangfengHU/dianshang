@@ -43,10 +43,11 @@ public class TestTbTest {
     @Test
     public void testRedis() {
         // 创建redis客户端对象并指定服务器地址 端口默认为6379
-        Jedis jedis = new Jedis("192.168.56.102", 6379);
+        Jedis jedis = new Jedis("192.168.56.200", 6379);
         // 使redis中的pno key值加1
         Long incr = jedis.incr("pno");
-        System.err.println("索引"+incr);
+        String key = jedis.get("key");
+        System.err.println("索引"+key);
     }
 
 }

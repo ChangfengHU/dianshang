@@ -31,8 +31,11 @@
     <dubbo:reference interface="com.dianshang.core.service.SolrService"
                      id="solrService" url="dubbo://127.0.0.1:20881" />
 
+    <dubbo:reference interface="com.dianshang.core.service.BrandService"
+                     id="brandService" url="dubbo://127.0.0.1:20880" />
+
     <!-- 全局设置超时时间 -->
-    <dubbo:consumer timeout="600000" check="false" />
+    <dubbo:consumer timeout="6000000" check="false" />
 
 
 

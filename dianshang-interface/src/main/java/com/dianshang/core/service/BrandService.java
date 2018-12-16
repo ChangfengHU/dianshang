@@ -44,4 +44,5 @@ public interface BrandService {
 	 */
 	public void deleteByIds(String ids);
 
+    List<Brand> findAllFromRedis();
 }

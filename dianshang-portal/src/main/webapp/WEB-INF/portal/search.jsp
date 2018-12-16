@@ -14,13 +14,13 @@
         //过滤品牌
         function fqBrand(brandId)
         {
-            window.location = "search?keyword=${keyword}&sort=${sort2}&pageNum=1&brandId="+brandId+"&pa=${pa}&pb=${pb}";
+            window.location = "search.do?keyword=${keyword}&sort=${sort2}&pageNum=1&brandId="+brandId+"&pa=${pa}&pb=${pb}";
         }
 
         //过滤价格
         function fqPrice(pa,pb)
         {
-            window.location = "search?keyword=${keyword}&sort=${sort2}&pageNum=1&brandId=${brandId}&pa="+pa+"&pb="+pb;
+            window.location = "search.do?keyword=${keyword}&sort=${sort2}&pageNum=1&brandId=${brandId}&pa="+pa+"&pb="+pb;
         }
 	</script>
 
