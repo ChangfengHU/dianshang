@@ -12,5 +12,10 @@ public interface SkuService {
 
     List<Sku> findByProductId(String productId);
 
+    /**
+     * 修改商品库存信息
+     * @param sku
+     * @return
+     */
     int update(Sku sku);
 }

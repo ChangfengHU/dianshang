@@ -3,6 +3,7 @@ package com.dianshang.core.service;
 import com.dianshang.core.pojo.Brand;
 import com.dianshang.core.pojo.Color;
 import com.dianshang.core.pojo.Product;
+import com.dianshang.core.pojo.SuperPojo;
 import com.dianshang.core.tools.PageHelper;
 import org.apache.solr.client.solrj.SolrServerException;
 
@@ -50,5 +51,19 @@ public interface ProductService {
 	 */
 	public List<Brand> findEnablebrands();
 
+	/**
+	 * 商品上下架
+	 * @param product
+	 * @param ids
+	 * @throws IOException
+	 * @throws SolrServerException
+	 */
 	void update(Product product, String ids) throws IOException, SolrServerException;
+
+	/**
+	 * 根据商品id查询单个商品信息
+	 * @param id
+	 * @return
+	 */
+	public SuperPojo findById(Long id);
 }

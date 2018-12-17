@@ -15,8 +15,8 @@
 		</association>
 
 	</resultMap>
-
-	<!-- 关联查询时，需要使用resultMap引用结果映射的id -->
+    <!--1.表关联查询,这种查询很复杂,承接对象很复杂 -->
+	<!-- 关联查询时，需要使用resultMap引用结果映射的id  -->
 	<select id="findByProductId" resultMap="skuColorResultMap">
 		SELECT
 		*,u.name
@@ -25,5 +25,19 @@
 		LEFT JOIN bbs_color u ON o.color_id = u.id
 		WHERE
 		o.product_id = #{productId};
+	</select>
+	<!--使用superpojo 终极大招查询 -->
+	<!-- 根据商品id查询某商品的库存，并且将颜色名称，通过对颜色表连接查询的方式也带出来 -->
+	<select id="findSKuAndColorByProductId" resultType="SuperPojo">
+		SELECT
+		*
+		FROM
+		bbs_sku,
+		bbs_color
+		WHERE
+		bbs_sku.color_id =
+		bbs_color.id
+		AND bbs_sku.product_id =
+		#{productId};
 	</select>
 </mapper>

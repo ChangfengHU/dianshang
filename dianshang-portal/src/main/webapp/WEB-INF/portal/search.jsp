@@ -264,7 +264,7 @@
 										<li data-sku="1711416562" class="gl-item">
 											<div class="gl-i-wrap">
 												<div class="p-img">
-													<a href="javascript:;" onclick="window.open('/product/detail?productId=${product.id}')" style="position: relative;">
+													<a href="javascript:;" onclick="window.open('/product/detail.do?productId=${product.id}')" style="position: relative;">
 														<img width="220" height="220" class="err-product"  src="${product.imgUrl}">
 														<div id="gwd_float_curve_trigger" class="gwd_float_curve_trigger gwd_float_curve_up" style="left: 70px; top: 180px;">
 															<div class="gwd_float_curve_wrapper">

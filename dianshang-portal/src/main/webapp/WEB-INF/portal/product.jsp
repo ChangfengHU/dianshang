@@ -6,7 +6,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<title>${product.name }- 新巴巴</title>
+<title>${superPojo.product.name }- 新巴巴</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <link rel="stylesheet" type="text/css" href="/css/babasport.css"/>
 <link href="/css/a.css" rel="stylesheet"/>
@@ -55,7 +55,7 @@ window.pageConfig = {
 				pageConfig.product.cat = [ 737, 794, 798 ];
 			</script>
 			<span><a href="javascript:;">依琦莲</a>&nbsp;&gt;&nbsp;<a
-				href="javascript:;">${product.name }</a>
+				href="javascript:;">${superPojo.product.name }</a>
 			</span>
 		</div>
 	</div>
@@ -63,8 +63,8 @@ window.pageConfig = {
 	<div class="w">
 		<div id="product-intro">
 			<div id="name">
-				<h1>${product.name }</h1>
-				<strong>${product.name}</strong>
+				<h1>${superPojo.product.name }</h1>
+				<strong>${superPojo.product.name}</strong>
 			</div>
 			<!--name end-->
 			<div class="clearfix">
@@ -78,7 +78,7 @@ window.pageConfig = {
 					</li>
 					<li id="summary-market"><div class="dt">商品编号：</div>
 						<div class="dd">
-							<span>${product.id }</span>
+							<span>${superPojo.product.id }</span>
 						</div></li>
 					<li id="summary-grade">
 						<div class="dt">商品评分：</div>
@@ -129,13 +129,13 @@ window.pageConfig = {
 			<div id="choose-color" class="li choose-color-shouji p-choose">
 				<div class="dt">选择颜色：</div>
 				<div class="dd" id="colors">
-				  <c:forEach items="${colors }" var="color">
-					<div class="item" onclick="colorToRed(this,'${color.id}')">
+				  <c:forEach items="${superPojo.colors }" var="color">
+					<div class="item" onclick="colorToRed(this,'${color.key}')">
 						<b></b>
-						<a href="javascript:;" title="${color.name }" >
+						<a href="javascript:;" title="${color.value }" >
 						<img data-img="1"
 							src="/images/53f44cc2N0b714cb2_002.jpg"
-							alt="灰色三件套" height="25" width="25"><i>${color.name }</i></a>
+							alt="灰色三件套" height="25" width="25" ><i>${color.value }</i></a>
 					</div>
 				  </c:forEach>
 				</div>
@@ -178,8 +178,10 @@ window.pageConfig = {
 			<div id="preview">
 				<div id="spec-n1" class="jqzoom"
 					clstag="shangpin|keycount|product|spec-n1">
-					<img data-img="1" width="350" height="350" src="${product.images[0]}"
-						alt="${product.name}" jqimg="${product.images[0]}" />
+					<c:forTokens items="${superPojo.product.imgUrl}" delims="," var="imgUrl" begin="0" end="0">
+					<img data-img="1" width="350" height="350" src="${imgUrl}"
+						alt="${superPojo.product.name}" jqimg="${product.images[0]}" />
+					</c:forTokens>
 				</div>
 
 				<div id="spec-list" clstag="shangpin|keycount|product|spec-n5">
@@ -187,18 +189,18 @@ window.pageConfig = {
 					<a href="javascript:;" class="spec-control" id="spec-backward"></a>
 					<div class="spec-items">
 						<ul class="lh">
-							<c:forEach items="${product.images}" var="pic" varStatus="status">
+							<c:forTokens items="${superPojo.product.imgUrl}" delims="," var="pic" varStatus="status">
 								<c:choose>
 									<c:when test="${status.index == 0 }">
 										<li><img data-img="1" class="img-hover"
-											alt="${product.name}" src="${pic}" width="50" height="50"></li>
+											alt="${superPojo.product.name}" src="${pic}" width="50" height="50"></li>
 									</c:when>
 									<c:otherwise>
-										<li><img data-img="1" alt="${product.name}" src="${pic}"
+										<li><img data-img="1" alt="${superPojo.product.name}" src="${pic}"
 											width="50" height="50" ></li>
 									</c:otherwise>
 								</c:choose>
-							</c:forEach>
+							</c:forTokens>
 						</ul>
 					</div>
 				</div>
@@ -270,7 +272,7 @@ window.pageConfig = {
 						<b></b>如果您发现商品信息不准确，欢迎纠错
 					</div>
 					<div id="item-desc" class="detail-content">
-						${product.description }</div>
+						${superPojo.product.description }</div>
 				</div>
 				<div class="mc hide" data-widget="tab-content" id="product-detail-2"></div>
 				<div class="mc  hide" data-widget="tab-content"

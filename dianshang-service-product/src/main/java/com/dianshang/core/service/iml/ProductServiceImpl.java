@@ -4,10 +4,7 @@ import com.dianshang.core.dao.BrandDAO;
 import com.dianshang.core.dao.ColorDAO;
 import com.dianshang.core.dao.ProductDAO;
 import com.dianshang.core.dao.SkuDAO;
-import com.dianshang.core.pojo.Brand;
-import com.dianshang.core.pojo.Color;
-import com.dianshang.core.pojo.Product;
-import com.dianshang.core.pojo.Sku;
+import com.dianshang.core.pojo.*;
 import com.dianshang.core.service.ProductService;
 import com.dianshang.core.tools.PageHelper;
 import com.github.abel533.entity.Example;
@@ -179,6 +176,20 @@ public class ProductServiceImpl implements ProductService {
         }
 
             }
+
+    @Override
+    public SuperPojo findById(Long id) {
+        // 先查询出单个商品对象
+        Product product = productDAO.selectByPrimaryKey(id);
+        // 再根据商品id查询出该商品的库存对象集合
+        //此时库存的信息包括了颜色信息
+        List<SuperPojo> skus = skuDAO.findSKuAndColorByProductId(id);
+        // 将单个商品对象和其对应的库存对象集合封装到万能pojo对象中
+        SuperPojo superPojo = new SuperPojo();
+        superPojo.setProperty("product", product);
+        superPojo.setProperty("skus", skus);
+        return superPojo;
+    }
 
 
 }
