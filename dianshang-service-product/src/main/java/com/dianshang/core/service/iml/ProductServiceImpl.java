@@ -10,12 +10,16 @@ import com.dianshang.core.tools.PageHelper;
 import com.github.abel533.entity.Example;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.impl.CloudSolrServer;
-import org.apache.solr.common.SolrInputDocument;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jms.core.JmsTemplate;
+import org.springframework.jms.core.MessageCreator;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import redis.clients.jedis.Jedis;
 
+import javax.jms.JMSException;
+import javax.jms.Message;
+import javax.jms.Session;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -43,6 +47,9 @@ public class ProductServiceImpl implements ProductService {
     private Jedis jedis;
     @Autowired
     private CloudSolrServer cloudSolrServer;
+    @Autowired
+    private JmsTemplate jmsTemplate;
+
 	@Override
 	public PageHelper.Page<Product> findByExample(Product product, Integer pageNum,
 												  Integer pageSize) {
@@ -105,7 +112,6 @@ public class ProductServiceImpl implements ProductService {
                 sku.setStock(0);
                 sku.setUpperLimit(100);
                 sku.setCreateTime(new Date());
-
                 skuDAO.insert(sku);
             }
         }
@@ -119,7 +125,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public void update(Product product, String ids) throws IOException, SolrServerException {
+    public void update(Product product, final String ids) throws IOException, SolrServerException {
         Example example = new Example(Product.class);
 
         // 将ids的字符串转成list集合
@@ -137,45 +143,23 @@ public class ProductServiceImpl implements ProductService {
         // 如果是商品上架，将商品信息添加到solr服务器中
         // 需要保存的信息有：商品id、商品名称、图片地址、售价、品牌id、上架时间（可选）
         if (product.getIsShow() == 1) {
-            // 查询ids中的所有商品
-            List<Product> products = productDAO.selectByExample(example);
-            // 遍历查询出来的商品集合
-            for (Product product2 : products) {
-// 指定要访问的Collection名称
-                cloudSolrServer.setDefaultCollection("myCollection1");
-                // 将商品的各个信息，添加到文档对象中
-                SolrInputDocument doc = new SolrInputDocument();
-                doc.addField("id", product2.getId());
-                doc.addField("name_ik", product2.getName());
-                doc.addField("url", product2.getImgUrl().split(",")[0]);
-                doc.addField("brandId", product2.getBrandId());
+            // 采用消息服务模式
+            // 将商品信息添加到solr服务器中（发送消息（ids）到ActiveMQ中）
+            jmsTemplate.send("productIds", new MessageCreator() {
 
-                // 查询出某商品库存中的最低价格
-                // SELECT price from bbs_sku WHERE bbs_sku.product_id = 449
-                // ORDER BY price ASC LIMIT 1
+                @Override
+                public Message createMessage(Session session) throws JMSException {
+                    // TODO Auto-generated method stub
+                    //使用session创建文本消息
+                    return session.createTextMessage(ids);
+                }
+            });
 
-                Example example2 = new Example(Sku.class);
-                // 某商品的库存
-                example2.createCriteria().andEqualTo("productId",
-                        product2.getId());
-                example2.setOrderByClause("price asc");// 价格升序
-                // 开始分页 limit
-                PageHelper.startPage(1, 1);
-                List<Sku> skus = skuDAO.selectByExample(example2);
-                // 结束分页
-                PageHelper.endPage();
 
-                doc.addField("price", skus.get(0).getPrice());
 
-                // 将文档对象添加到solr服务器中
-                cloudSolrServer.add(doc);
-
-                // 提交
-                cloudSolrServer.commit();
-            }
         }
 
-            }
+    }
 
     @Override
     public SuperPojo findById(Long id) {

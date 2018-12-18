@@ -20,4 +20,24 @@ fastdfs-------------
 开机启动    chkconfig fdfs_storaged on
             chkconfig fdfs_trackerd on
 
+acticeMQ------------------------
+机器名字:192.168.56.200
+测试服务:http://192.168.56.200:8161/admin
+默认管理员账户密码：admin/admin
+机器开启:
+service activemq start
+service activemq stop
+service activemq status
+
+
+
+
+
+
+
+
+
+
+
+
 

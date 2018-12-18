@@ -1,18 +1,25 @@
 package com.dianshang.core.service.imp;
 
+import com.dianshang.core.dao.ProductDAO;
+import com.dianshang.core.dao.SkuDAO;
+import com.dianshang.core.pojo.Product;
+import com.dianshang.core.pojo.Sku;
 import com.dianshang.core.pojo.SuperPojo;
 import com.dianshang.core.service.SolrService;
 import com.dianshang.core.tools.PageHelper;
+import com.github.abel533.entity.Example;
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.impl.CloudSolrServer;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrDocumentList;
+import org.apache.solr.common.SolrInputDocument;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -28,7 +35,60 @@ public class SolrServiceImpl implements SolrService {
 
 	@Autowired
 	private CloudSolrServer cloudSolrServer;
+	@Autowired
+	private SkuDAO skuDAO;
+	@Autowired
+	private ProductDAO productDAO;
+	@Override
+	public void addProduct(String ids) throws SolrServerException, IOException {
 
+		Example example = new Example(Product.class);
+
+		// 将ids的字符串转成list集合
+		List arrayList = new ArrayList<Object>();
+		String[] split = ids.split(",");
+		for (String string : split) {
+			arrayList.add(string);
+		}
+
+		// 设置批量修改的id条件
+		example.createCriteria().andIn("id", arrayList);
+
+		// 查询ids中的所有商品
+		List<Product> products = productDAO.selectByExample(example);
+		// 遍历查询出来的商品集合
+		for (Product product2 : products) {
+
+			// 将商品的各个信息，添加到文档对象中
+			SolrInputDocument doc = new SolrInputDocument();
+			doc.addField("id", product2.getId());
+			doc.addField("name_ik", product2.getName());
+			doc.addField("url", product2.getImgUrl().split(",")[0]);
+			doc.addField("brandId", product2.getBrandId());
+
+			// 查询出某商品库存中的最低价格
+			// SELECT price from bbs_sku WHERE bbs_sku.product_id = 449
+			// ORDER BY price ASC LIMIT 1
+
+			Example example2 = new Example(Sku.class);
+			// 某商品的库存
+			example2.createCriteria().andEqualTo("productId", product2.getId());
+			example2.setOrderByClause("price asc");// 价格升序
+			// 开始分页 limit
+			PageHelper.startPage(1, 1);
+			List<Sku> skus = skuDAO.selectByExample(example2);
+			// 结束分页
+			PageHelper.endPage();
+
+			doc.addField("price", skus.get(0).getPrice());
+
+			// 将文档对象添加到solr服务器中
+			cloudSolrServer.add(doc);
+
+			// 提交
+			cloudSolrServer.commit();
+		}
+	}
 	@Override
 	public PageHelper.Page<SuperPojo> findProductByKeyWord(String keyword, String sort, Integer pageNum, Integer pageSize, Long brandId, Float pa, Float pb)
 			throws SolrServerException {

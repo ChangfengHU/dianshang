@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+
+
+	<settings>
+		<!-- 开启驼峰匹配 -->
+		<setting name="mapUnderscoreToCamelCase" value="true" />
+	</settings>
+
+	<!-- 别名 typeAliases标签 是写实体类的别名，写了之后可以在写Sql配置文件
+	例如<select>标签中的属性就可以不用写实体的具体路径直接用别名就可以了，
+	可以简化代码给你看个例子：
+	没有别名这样写<select resultType="com.sjh.entity.VoteUser">
+	写了别名就可以这样写<select  resultType="VoteUsers">
+	 直接写别名就可以不用再写实体的路径了，VoteUsers就能在任何地方代替
+	 “com.sjh.entity.VoteUser”被使用。如果很多属性涉及到实体类，
+	 直接写别名很方便的。你说你删了程序照样跑，写配置的时候你一定是没有应用到别名，
+	 都写得实体路径。希望通过我的一番解释你能明白这个标签的用途。-->
+	<!--DROP TABLE IF EXISTS `bbs_brand`;
+CREATE TABLE `bbs_brand` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'ID',
+  `name` varchar(40) NOT NULL COMMENT '名称',
+  `description` varchar(80) DEFAULT NULL COMMENT '描述',
+  `img_url` varchar(80) DEFAULT NULL COMMENT '图片Url',
+  `web_site` varchar(80) DEFAULT NULL COMMENT '品牌网址',
+  `sort` int(11) DEFAULT NULL COMMENT '排序:最大最排前',
+  `is_display` tinyint(1) DEFAULT NULL COMMENT '是否可见 1:可见 0:不可见',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COMMENT='品牌';
+
+
+INSERT INTO bbs_brand VALUES ('1', '依琦莲', null, null, null, '99', '1');
+INSERT INTO bbs_brand VALUES ('2', '凯速（KANSOON）', null, null, null, 98, '1');
+INSERT INTO bbs_brand VALUES ('3', '梵歌纳（vangona）', null, null, null, 97, '1');
+INSERT INTO bbs_brand VALUES ('4', '伊朵莲', null, null, null, 96, '1');
+INSERT INTO bbs_brand VALUES ('5', '菩媞', null, null, null, 95, '1');
+INSERT INTO bbs_brand VALUES ('6', '丹璐斯', null, null, null, 94, '1');
+INSERT INTO bbs_brand VALUES ('7', '喜悦瑜伽', null, null, null, 93, '1');
+INSERT INTO bbs_brand VALUES ('8', '皮尔（pieryoga）', null, null, null, 92, '1');
+INSERT INTO bbs_brand VALUES ('9', '路伊梵（LEFAN）', null, null, null, 91, '1');
+INSERT INTO bbs_brand VALUES ('10', '金啦啦', null, null, null, 90, '0');
+INSERT INTO bbs_brand VALUES ('11', '来尔瑜伽（LaiErYoGA）', null, null, null, 89, '1');
+INSERT INTO bbs_brand VALUES ('12', '艾米达（aimida）', null, null, null, 88, '1');
+INSERT INTO bbs_brand VALUES ('13', '斯泊恩', null, null, null, 87, '1');
+INSERT INTO bbs_brand VALUES ('14', '康愫雅KSUA', null, null, null, 86, '1');
+INSERT INTO bbs_brand VALUES ('15', '格宁', null, null, null, 85, '1');
+INSERT INTO bbs_brand VALUES ('16', 'E奈尔（Enaier）', null, null, null, 84, '1');
+INSERT INTO bbs_brand VALUES ('17', '哈他', null, null, null, 83, '1');
+INSERT INTO bbs_brand VALUES ('18', '伽美斯（Jamars）', null, null, null, 82, '1');
+INSERT INTO bbs_brand VALUES ('19', '瑜伽树（yogatree）', null, null, null, 81, '1');
+INSERT INTO bbs_brand VALUES ('20', '兰博伊人（lanboyiren）', null, null, null, 80, '1');
+-->
+	<typeAliases>
+		<package name="com.dianshang.core.pojo" />
+	</typeAliases>
+
+	<plugins>
+		<!-- 自定义分页插件 -->
+		<plugin interceptor="com.dianshang.core.tools.PageHelper"></plugin>
+		<!-- 通用Mapper -->
+		<plugin interceptor="com.github.abel533.mapperhelper.MapperInterceptor">
+			<!--主键自增回写方法,默认值MYSQL,详细说明请看文档 -->
+			<property name="IDENTITY" value="HSQLDB" />
+			<!--通用Mapper接口，多个通用接口用逗号隔开 -->
+			<property name="mappers" value="com.github.abel533.mapper.Mapper" />
+		</plugin>
+	</plugins>
+</configuration>

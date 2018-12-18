@@ -18,19 +18,8 @@
    		http://www.springframework.org/schema/task/spring-task.xsd
 		http://code.alibabatech.com/schema/dubbo
 		http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
-
-
-    <!-- 读取Property -->
-    <bean
-            class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-        <property name="locations">
-            <set>
-                <value>classpath:jdbc.properties</value>
-            </set>
-        </property>
-    </bean>
-
-    <!-- 载入 config文件夹下的所有xml配置 -->
-    <import resource="config/*.xml" />
-
+    <!-- spring注解注入 扫描 扫到的都可以注解注入-->
+    <context:component-scan base-package="com.dianshang" />
 </beans>
+
+
